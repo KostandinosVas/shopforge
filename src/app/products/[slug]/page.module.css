@@ -1,0 +1,71 @@
+.container {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.imagePlaceholder {
+  background: #f5f5f5;
+  border-radius: 8px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.name {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.price {
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.description {
+  color: #555;
+  line-height: 1.6;
+}
+
+.stock {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.addBtn {
+  padding: 0.85rem 2rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: auto;
+}
+
+.addBtn:hover {
+  background: #333;
+}
+
+.addBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.notFound {
+  text-align: center;
+  padding: 5rem 1.5rem;
+  color: #888;
+}

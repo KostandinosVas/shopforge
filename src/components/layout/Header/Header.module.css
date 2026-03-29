@@ -1,0 +1,58 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav a {
+  font-size: 0.95rem;
+  color: #444;
+  transition: color 0.15s;
+}
+
+.nav a:hover {
+  color: #000;
+}
+
+.cartButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #111;
+}
+
+.cartCount {
+  background: #111;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+}

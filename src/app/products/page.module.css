@@ -1,0 +1,45 @@
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filterBtn {
+  padding: 0.4rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filterBtn:hover,
+.filterBtn.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
