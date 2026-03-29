@@ -56,3 +56,28 @@
   font-size: 0.75rem;
   padding: 0.1rem 0.5rem;
 }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.greeting {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.authBtn {
+  font-size: 0.875rem;
+  color: #111;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+}
+
+.authBtn:hover {
+  border-color: #111;
+}

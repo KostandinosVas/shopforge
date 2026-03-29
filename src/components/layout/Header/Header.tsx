@@ -1,12 +1,11 @@
-'use client';
-
 import Link from 'next/link';
-import { useCartStore } from '@/store/cart';
+import { auth } from '@/lib/auth';
+import CartIcon from './CartIcon';
+import SignOutButton from './SignOutButton';
 import styles from './Header.module.css';
 
-export default function Header() {
-  const items = useCartStore((state) => state.items);
-  const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
+export default async function Header() {
+  const session = await auth();
 
   return (
     <header className={styles.header}>
@@ -21,12 +20,19 @@ export default function Header() {
           </ul>
         </nav>
 
-        <Link href="/cart" className={styles.cartButton}>
-          🛒
-          {totalItems > 0 && (
-            <span className={styles.cartCount}>{totalItems}</span>
+        <div className={styles.actions}>
+          {session ? (
+            <>
+              <Link href="/account" className={styles.greeting}>
+                Hi, {session.user?.name}
+              </Link>
+              <SignOutButton />
+            </>
+          ) : (
+            <Link href="/login" className={styles.authBtn}>Log in</Link>
           )}
-        </Link>
+          <CartIcon />
+        </div>
       </div>
     </header>
   );
