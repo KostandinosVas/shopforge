@@ -14,7 +14,11 @@ export default async function AccountPage() {
     .from(orders)
     .where(eq(orders.userId, Number(session.user?.id ?? 0)));
 
+      console.log('Session user id:', session.user?.id);
+  console.log('Orders found:', userOrders.length);
+
   return (
+    
     <div className={styles.container}>
       <h1 className={styles.title}>My Account</h1>
 

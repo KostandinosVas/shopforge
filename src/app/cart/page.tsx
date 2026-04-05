@@ -1,11 +1,35 @@
 'use client';
 
 import { useCartStore } from '@/store/cart';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import styles from './page.module.css';
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity } = useCartStore();
+  const { items, removeItem, updateQuantity, clearCart } = useCartStore();
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  async function handleCheckout() {
+    setLoading(true);
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || 'Something went wrong');
+      setLoading(false);
+      return;
+    }
+
+    clearCart();
+    router.push(data.url);
+  }
 
   if (items.length === 0) {
     return (
@@ -53,7 +77,9 @@ export default function CartPage() {
 
       <div className={styles.summary}>
         <p className={styles.total}>Total: €{total.toFixed(2)}</p>
-        <button className={styles.checkoutBtn}>Proceed to Checkout</button>
+        <button className={styles.checkoutBtn} onClick={handleCheckout} disabled={loading}>
+          {loading ? 'Redirecting...' : 'Proceed to Checkout'}
+        </button>
       </div>
     </div>
   );
