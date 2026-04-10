@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+.sidebar {
+  width: 220px;
+  background: #111;
+  color: #fff;
+  padding: 2rem 1rem;
+  flex-shrink: 0;
+}
+
+.sidebar h2 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav a {
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #ccc;
+  transition: all 0.15s;
+}
+
+.nav a:hover {
+  background: #222;
+  color: #fff;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  background: #f9f9f9;
+}
