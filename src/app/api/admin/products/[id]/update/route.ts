@@ -14,7 +14,7 @@ export async function POST(
   }
 
   const { id } = await params;
-  const { name, slug, description, price, stock, categoryId } = await req.json();
+  const { name, slug, description, price, stock, categoryId, images } = await req.json();
 
   await db
     .update(products)
@@ -25,6 +25,7 @@ export async function POST(
       price,
       stock: Number(stock),
       categoryId: categoryId ? Number(categoryId) : null,
+      images: images ?? [],
     })
     .where(eq(products.id, Number(id)));
 

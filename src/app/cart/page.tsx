@@ -4,6 +4,7 @@ import { useCartStore } from '@/store/cart';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styles from './page.module.css';
+import Image from 'next/image';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
@@ -46,7 +47,13 @@ export default function CartPage() {
 
       {items.map((item) => (
         <div key={item.id} className={styles.item}>
-          <div className={styles.imagePlaceholder}>img</div>
+                    <div className={styles.imagePlaceholder}>
+            {item.image ? (
+              <Image src={item.image} alt={item.name} width={80} height={80} style={{ objectFit: 'cover', borderRadius: 6 }} />
+            ) : (
+              <span>No img</span>
+            )}
+          </div>
 
           <div className={styles.itemInfo}>
             <p className={styles.itemName}>{item.name}</p>

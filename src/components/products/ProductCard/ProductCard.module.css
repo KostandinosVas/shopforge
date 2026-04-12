@@ -9,9 +9,14 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-.imagePlaceholder {
-  background: #f5f5f5;
+.imageWrapper {
+  position: relative;
   height: 220px;
+  background: #f5f5f5;
+}
+
+.imagePlaceholder {
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

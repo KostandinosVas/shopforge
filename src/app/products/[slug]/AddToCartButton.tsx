@@ -9,6 +9,7 @@ type Product = {
   slug: string;
   price: string;
   stock: number;
+  images: string[];
 };
 
 export default function AddToCartButton({ product }: { product: Product }) {
@@ -19,7 +20,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
       id: product.id,
       name: product.name,
       price: Number(product.price),
-      image: '',
+      image: product.images?.[0] ?? '',
     });
   }
 

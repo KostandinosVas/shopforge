@@ -56,13 +56,14 @@ export default async function ProductsPage({ searchParams }: Props) {
 
       <div className={styles.grid}>
         {allProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            slug={product.slug}
-            price={product.price}
-          />
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                slug={product.slug}
+                price={product.price}
+                image={product.images?.[0]}
+              />
         ))}
       </div>
     </div>

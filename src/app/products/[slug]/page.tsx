@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import AddToCartButton from './AddToCartButton';
 import styles from './page.module.css';
+import Image from 'next/image';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -37,9 +38,21 @@ export default async function ProductDetailPage({ params }: Props) {
 
   if (!product) notFound();
 
+  
   return (
     <div className={styles.container}>
-      <div className={styles.imagePlaceholder}>No image yet</div>
+      <div className={styles.imageWrapper}>
+        {product.images?.[0] ? (
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            fill
+            style={{ objectFit: 'cover', borderRadius: 8 }}
+          />
+        ) : (
+          <div className={styles.imagePlaceholder}>No image yet</div>
+        )}
+      </div>
 
       <div className={styles.info}>
         <h1 className={styles.name}>{product.name}</h1>

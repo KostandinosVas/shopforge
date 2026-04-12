@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import styles from './ProductForm.module.css';
 
 type Category = { id: number; name: string; slug: string };
@@ -13,6 +14,7 @@ type Product = {
   price: string;
   stock: number;
   categoryId: number | null;
+  images: string[];
 };
 
 type Props = {
@@ -24,6 +26,33 @@ export default function ProductForm({ categories, product }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [images, setImages] = useState<string[]>(product?.images ?? []);
+  const [uploading, setUploading] = useState(false);
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.error || 'Upload failed');
+      setUploading(false);
+      return;
+    }
+
+    setImages((prev) => [...prev, data.url]);
+    setUploading(false);
+  }
+
+  function removeImage(url: string) {
+    setImages((prev) => prev.filter((i) => i !== url));
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -38,6 +67,7 @@ export default function ProductForm({ categories, product }: Props) {
       price: (form.elements.namedItem('price') as HTMLInputElement).value,
       stock: (form.elements.namedItem('stock') as HTMLInputElement).value,
       categoryId: (form.elements.namedItem('categoryId') as HTMLSelectElement).value,
+      images,
     };
 
     const url = product
@@ -99,7 +129,6 @@ export default function ProductForm({ categories, product }: Props) {
           <label htmlFor="price">Price (€)</label>
           <input id="price" name="price" type="number" step="0.01" min="0" required defaultValue={product?.price} />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="stock">Stock</label>
           <input id="stock" name="stock" type="number" min="0" required defaultValue={product?.stock} />
@@ -114,6 +143,22 @@ export default function ProductForm({ categories, product }: Props) {
             <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
+      </div>
+
+      <div className={styles.field}>
+        <label>Images</label>
+        <div className={styles.imageList}>
+          {images.map((url) => (
+            <div key={url} className={styles.imageThumb}>
+              <Image src={url} alt="product" width={80} height={80} style={{ objectFit: 'cover', borderRadius: 4 }} />
+              <button type="button" className={styles.removeImg} onClick={() => removeImage(url)}>✕</button>
+            </div>
+          ))}
+        </div>
+        <label className={styles.uploadBtn}>
+          {uploading ? 'Uploading...' : '+ Upload Image'}
+          <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageUpload} hidden disabled={uploading} />
+        </label>
       </div>
 
       {error && <p className={styles.error}>{error}</p>}

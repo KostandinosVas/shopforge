@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const { name, slug, description, price, stock, categoryId } = await req.json();
+  const { name, slug, description, price, stock, categoryId, images } = await req.json();
 
   if (!name || !slug || !price) {
     return NextResponse.json({ error: 'Name, slug and price are required' }, { status: 400 });
@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
     price,
     stock: Number(stock),
     categoryId: categoryId ? Number(categoryId) : null,
+    images: images ?? [],
   });
 
   return NextResponse.json({ success: true });

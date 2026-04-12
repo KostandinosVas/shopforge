@@ -17,13 +17,14 @@ export default async function Home() {
         <h2>Featured Products</h2>
         <div className={styles.grid}>
           {featured.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              slug={product.slug}
-              price={product.price}
-            />
+          <ProductCard
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            slug={product.slug}
+            price={product.price}
+            image={product.images?.[0]}
+          />
           ))}
         </div>
       </section>
