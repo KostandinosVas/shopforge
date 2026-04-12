@@ -81,3 +81,13 @@
 .authBtn:hover {
   border-color: #111;
 }
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 0 1rem;
+  }
+
+  .nav {
+    display: none;
+  }
+}

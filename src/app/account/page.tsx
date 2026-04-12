@@ -5,6 +5,13 @@ import { orders } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import styles from './page.module.css';
 
+
+
+export const metadata = {
+  title: 'My Account',
+  description: 'View your profile and order history.',
+};
+
 export default async function AccountPage() {
   const session = await auth();
   if (!session) redirect('/login');

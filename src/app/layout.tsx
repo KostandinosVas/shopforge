@@ -3,8 +3,16 @@ import Header from '@/components/layout/Header/Header';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ShopForge',
-  description: 'A modern e-commerce store',
+  title: {
+    default: 'ShopForge',
+    template: '%s — ShopForge',
+  },
+  description: 'Quality products, delivered fast.',
+  openGraph: {
+    siteName: 'ShopForge',
+    type: 'website',
+    locale: 'en_US',
+  },
 };
 
 export default function RootLayout({

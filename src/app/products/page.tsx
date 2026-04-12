@@ -3,9 +3,15 @@ import { products, categories } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import ProductCard from '@/components/products/ProductCard/ProductCard';
 import styles from './page.module.css';
+import Link from 'next/dist/client/link';
 
 type Props = {
   searchParams: Promise<{ category?: string }>;
+};
+
+export const metadata = {
+  title: 'Shop',
+  description: 'Browse our full collection of products.',
 };
 
 export default async function ProductsPage({ searchParams }: Props) {
@@ -30,20 +36,20 @@ export default async function ProductsPage({ searchParams }: Props) {
       <div className={styles.top}>
         <h1 className={styles.title}>All Products</h1>
         <div className={styles.filters}>
-          <a
+          <Link
             href="/products"
             className={`${styles.filterBtn} ${!category ? styles.active : ''}`}
           >
             All
-          </a>
+          </Link>
           {allCategories.map((cat) => (
-            <a
+            <Link
               key={cat.id}
               href={`/products?category=${cat.slug}`}
               className={`${styles.filterBtn} ${category === cat.slug ? styles.active : ''}`}
             >
               {cat.name}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

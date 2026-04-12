@@ -9,6 +9,23 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const [product] = await db
+    .select()
+    .from(products)
+    .where(eq(products.slug, slug))
+    .limit(1);
+
+  if (!product) return { title: 'Product not found' };
+
+  return {
+    title: `${product.name} — ShopForge`,
+    description: product.description ?? `Buy ${product.name} at ShopForge.`,
+  };
+}
+
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
 
