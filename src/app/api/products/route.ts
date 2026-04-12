@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
-import { products } from '@/db/schema';
-import { eq, gte, lte, and, asc, desc } from 'drizzle-orm';
+import { products, categories } from '@/db/schema';
+import { eq, gte, lte, and, asc, desc, sql } from 'drizzle-orm';
 
 const PER_PAGE = 8;
 
@@ -14,10 +14,7 @@ export async function GET(req: NextRequest) {
   const page = Math.max(1, Number(searchParams.get('page')) || 1);
   const offset = (page - 1) * PER_PAGE;
 
-  const { categories } = await import('@/db/schema');
-  const { db: dbClient } = await import('@/db');
-
-  const allCategories = await dbClient.select().from(categories);
+  const allCategories = await db.select().from(categories);
   const categoryId = allCategories.find((c) => c.slug === category)?.id;
 
   const filters = [];
@@ -32,6 +29,11 @@ export async function GET(req: NextRequest) {
     sort === 'price_desc' ? desc(products.price) :
     desc(products.createdAt);
 
+  const [{ count }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(products)
+    .where(where);
+
   const results = await db
     .select()
     .from(products)
@@ -43,5 +45,6 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     products: results,
     hasMore: results.length === PER_PAGE,
+    count: Number(count),
   });
 }

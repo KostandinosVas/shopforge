@@ -7,13 +7,9 @@ type Category = { id: number; name: string; slug: string };
 
 type Props = {
   categories: Category[];
-  activeCategory?: string;
-  minPrice?: string;
-  maxPrice?: string;
-  sort?: string;
 };
 
-export default function ProductSidebar({ categories, activeCategory, minPrice, maxPrice }: Props) {
+export default function ProductSidebar({ categories }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -43,6 +39,10 @@ export default function ProductSidebar({ categories, activeCategory, minPrice, m
   function clearAll() {
     router.push('/products');
   }
+
+  const activeCategory = searchParams.get('category') ?? undefined;
+  const minPrice = searchParams.get('minPrice') ?? undefined;
+  const maxPrice = searchParams.get('maxPrice') ?? undefined;
 
   return (
     <aside className={styles.sidebar}>

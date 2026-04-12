@@ -3,9 +3,10 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 
-export default function SortSelect({ sort }: { sort?: string }) {
+export default function SortSelect() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const sort = searchParams.get('sort') ?? 'newest';
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const params = new URLSearchParams(searchParams.toString());
@@ -15,7 +16,7 @@ export default function SortSelect({ sort }: { sort?: string }) {
   }
 
   return (
-    <select className={styles.sortSelect} value={sort ?? 'newest'} onChange={handleChange}>
+    <select className={styles.sortSelect} value={sort} onChange={handleChange}>
       <option value="newest">Newest</option>
       <option value="price_asc">Price: Low to High</option>
       <option value="price_desc">Price: High to Low</option>
