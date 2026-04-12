@@ -1,70 +1,85 @@
 import { db } from '@/db';
 import { products, categories } from '@/db/schema';
-import { eq } from 'drizzle-orm';
-import ProductCard from '@/components/products/ProductCard/ProductCard';
+import { eq, gte, lte, and, asc, desc, sql } from 'drizzle-orm';
+import ProductSidebar from './ProductSidebar';
+import ProductGrid from './ProductGrid';
+import SortSelect from './SortSelect';
 import styles from './page.module.css';
-import Link from 'next/dist/client/link';
-
-type Props = {
-  searchParams: Promise<{ category?: string }>;
-};
 
 export const metadata = {
   title: 'Shop',
   description: 'Browse our full collection of products.',
 };
 
+const PER_PAGE = 8;
+
+type Props = {
+  searchParams: Promise<{
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    sort?: string;
+  }>;
+};
+
 export default async function ProductsPage({ searchParams }: Props) {
-  const { category } = await searchParams;
+  const { category, minPrice, maxPrice, sort } = await searchParams;
 
   const allCategories = await db.select().from(categories);
+  const categoryId = allCategories.find((c) => c.slug === category)?.id;
 
-  const allProducts = category
-    ? await db
-        .select()
-        .from(products)
-        .where(
-          eq(
-            products.categoryId,
-            allCategories.find((c) => c.slug === category)?.id ?? -1
-          )
-        )
-    : await db.select().from(products);
+  const filters = [];
+  if (categoryId) filters.push(eq(products.categoryId, categoryId));
+  if (minPrice) filters.push(gte(products.price, minPrice));
+  if (maxPrice) filters.push(lte(products.price, maxPrice));
+
+  const where = filters.length > 0 ? and(...filters) : undefined;
+
+  const orderBy =
+    sort === 'price_asc' ? asc(products.price) :
+    sort === 'price_desc' ? desc(products.price) :
+    desc(products.createdAt);
+
+  const [{ count }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(products)
+    .where(where);
+
+  const initialProducts = await db
+    .select()
+    .from(products)
+    .where(where)
+    .orderBy(orderBy)
+    .limit(PER_PAGE)
+    .offset(0);
+
+  const hasMore = initialProducts.length === PER_PAGE && Number(count) > PER_PAGE;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.top}>
-        <h1 className={styles.title}>All Products</h1>
-        <div className={styles.filters}>
-          <Link
-            href="/products"
-            className={`${styles.filterBtn} ${!category ? styles.active : ''}`}
-          >
-            All
-          </Link>
-          {allCategories.map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/products?category=${cat.slug}`}
-              className={`${styles.filterBtn} ${category === cat.slug ? styles.active : ''}`}
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
-      </div>
+    <div className={styles.layout}>
+      <ProductSidebar
+        categories={allCategories}
+        activeCategory={category}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        sort={sort}
+      />
 
-      <div className={styles.grid}>
-        {allProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                slug={product.slug}
-                price={product.price}
-                image={product.images?.[0]}
-              />
-        ))}
+      <div className={styles.main}>
+        <div className={styles.topBar}>
+          <p className={styles.resultCount}>{count} products</p>
+          <SortSelect sort={sort} />
+        </div>
+
+        {initialProducts.length === 0 ? (
+          <p className={styles.empty}>No products found.</p>
+        ) : (
+          <ProductGrid
+            key={`${category}-${minPrice}-${maxPrice}-${sort}`}
+            initialProducts={initialProducts}
+            initialHasMore={hasMore}
+          />
+        )}
       </div>
     </div>
   );
