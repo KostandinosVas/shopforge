@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { products, categories } from '@/db/schema';
-import { eq, gte, lte, and, asc, desc, sql } from 'drizzle-orm';
+import { eq, gte, lte, and, asc, desc, sql, ilike } from 'drizzle-orm';
 
 const PER_PAGE = 8;
 
@@ -17,10 +17,13 @@ export async function GET(req: NextRequest) {
   const allCategories = await db.select().from(categories);
   const categoryId = allCategories.find((c) => c.slug === category)?.id;
 
+  const search = searchParams.get('search');
+
   const filters = [];
   if (categoryId) filters.push(eq(products.categoryId, categoryId));
   if (minPrice) filters.push(gte(products.price, minPrice));
   if (maxPrice) filters.push(lte(products.price, maxPrice));
+    if (search) filters.push(ilike(products.name, `%${search}%`));
 
   const where = filters.length > 0 ? and(...filters) : undefined;
 

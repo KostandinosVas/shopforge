@@ -82,6 +82,31 @@
   border-color: #111;
 }
 
+.searchForm {
+  flex: 1;
+  max-width: 320px;
+  margin: 0 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #111;
+}
+
+@media (max-width: 768px) {
+  .searchForm {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .inner {
     padding: 0 1rem;

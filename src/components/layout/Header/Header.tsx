@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import CartIcon from './CartIcon';
 import SignOutButton from './SignOutButton';
+import SearchBar from './SearchBar';
 import styles from './Header.module.css';
 
 export default async function Header() {
@@ -21,6 +22,7 @@ export default async function Header() {
         </nav>
 
         <div className={styles.actions}>
+          <SearchBar />
           {session ? (
             <>
               <Link href="/account" className={styles.greeting}>
