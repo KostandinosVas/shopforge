@@ -47,3 +47,12 @@ export const orderItems = pgTable('order_items', {
   quantity: integer('quantity').notNull(),
   price: numeric('price', { precision: 10, scale: 2 }).notNull(),
 });
+
+export const reviews = pgTable('reviews', {
+  id: serial('id').primaryKey(),
+  productId: integer('product_id').references(() => products.id),
+  userId: integer('user_id').references(() => users.id),
+  rating: integer('rating').notNull(),
+  comment: text('comment'),
+  createdAt: timestamp('created_at').defaultNow(),
+});

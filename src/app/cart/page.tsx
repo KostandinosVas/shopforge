@@ -2,15 +2,20 @@
 
 import { useCartStore } from '@/store/cart';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, clearCart } = useCartStore();
+  const { items, removeItem, updateQuantity } = useCartStore();
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   async function handleCheckout() {
     setLoading(true);
@@ -28,8 +33,15 @@ export default function CartPage() {
       return;
     }
 
-    clearCart();
     router.push(data.url);
+  }
+
+  if (!mounted) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>Your Cart</h1>
+      </div>
+    );
   }
 
   if (items.length === 0) {

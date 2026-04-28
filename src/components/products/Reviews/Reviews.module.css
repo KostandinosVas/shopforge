@@ -1,0 +1,150 @@
+.container {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.avgRating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #ddd;
+  padding: 0;
+  line-height: 1;
+}
+
+.starFilled {
+  color: #f59e0b;
+}
+
+.form {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.formTitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.textarea {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+}
+
+.textarea:focus {
+  border-color: #111;
+}
+
+.error {
+  color: #c00;
+  font-size: 0.875rem;
+}
+
+.submitBtn {
+  padding: 0.6rem 1.5rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.submitBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.loginPrompt {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.loginPrompt a {
+  color: #111;
+  text-decoration: underline;
+}
+
+.thankYou {
+  color: #16a34a;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.empty {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.review {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.reviewer {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-left: auto;
+}
+
+.comment {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.5;
+}

@@ -4,6 +4,8 @@ import { db } from '@/db';
 import { orders } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import styles from './page.module.css';
+import { Suspense } from 'react';
+import ClearCartOnSuccess from './ClearCartOnSuccess';
 
 
 
@@ -21,12 +23,13 @@ export default async function AccountPage() {
     .from(orders)
     .where(eq(orders.userId, Number(session.user?.id ?? 0)));
 
-      console.log('Session user id:', session.user?.id);
-  console.log('Orders found:', userOrders.length);
+
 
   return (
-    
     <div className={styles.container}>
+      <Suspense fallback={null}>
+        <ClearCartOnSuccess />
+      </Suspense>
       <h1 className={styles.title}>My Account</h1>
 
       <section className={styles.section}>

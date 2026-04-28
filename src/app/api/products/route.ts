@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
 
   const where = filters.length > 0 ? and(...filters) : undefined;
 
-  const orderBy =
+  const primaryOrder =
     sort === 'price_asc' ? asc(products.price) :
     sort === 'price_desc' ? desc(products.price) :
     desc(products.createdAt);
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
     .select()
     .from(products)
     .where(where)
-    .orderBy(orderBy)
+    .orderBy(primaryOrder, asc(products.id))
     .limit(PER_PAGE)
     .offset(offset);
 
